@@ -5,14 +5,14 @@ resource "azurerm_resource_group" "hasma_rg" {
 
 
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  name                = "hasma_aks_cluster"
+  name                = "abdel_HASMA_aks_cluster"
   location            = azurerm_resource_group.hasma_rg.location
   resource_group_name = azurerm_resource_group.hasma_rg.name
   dns_prefix          = "hasmak8s"
 
   default_node_pool {
     name       = "default"
-    node_count = 3
+    node_count = 2
     vm_size    = "Standard_DS2_v2"
   }
 
@@ -34,13 +34,13 @@ resource "null_resource" "apply_k8s_manifests" {
   # Utiliser local-exec pour exécuter la commande kubectl
   provisioner "local-exec" {
     command = <<EOT
-      az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name} --overwrite-existing
-      kubectl apply -f ./Front
-      kubectl apply -f ./Back
-      kubectl apply -f ./Back/Phpmyadmin
-      kubectl apply -f ./Monitoring/Grafana
-      kubectl apply -f ./Monitoring/Prometheus
-      kubectl apply -f ./Monitoring/node-exporter  --validate=false
+      az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name}
+      kubectl apply -f ../Back
+      kubectl apply -f ../Front
+      kubectl apply -f ../Back/Phpmyadmin
+      kubectl apply -f ../Monitoring/Grafana
+      kubectl apply -f ../Monitoring/Prometheus
+      kubectl apply -f ../Monitoring/node-exporter  --validate=false    
     EOT
   }
 }

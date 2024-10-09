@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y gettext
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Authenticate to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: deploy AKS with terraform integration
+        run: |
+          cd terraform 
+          terraform init 
+
+      - name: plan 
+        run : |
+          cd terraform 
+          terraform plan 
+  
+      - name: Apply 
+        run : |
+          cd terraform 
+          terraform apply -auto-approve
+     

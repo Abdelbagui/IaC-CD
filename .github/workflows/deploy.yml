@@ -39,4 +39,3 @@ jobs:
         run : |
           cd terraform 
           terraform apply -auto-approve
-     

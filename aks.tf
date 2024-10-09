@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "hasma_rg" {
 
 
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  name                = "hasma_aks_cluster"
+  name                = "abdel_HASMA_aks_cluster"
   location            = azurerm_resource_group.hasma_rg.location
   resource_group_name = azurerm_resource_group.hasma_rg.name
   dns_prefix          = "hasmak8s"

@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "HASMA_RG"
+  default = "HASMA_abdel_RG"
 }
 
 variable "location" {

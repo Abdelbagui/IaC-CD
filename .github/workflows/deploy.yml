@@ -38,9 +38,17 @@ jobs:
       - name: Terraform Plan
         run: |
           cd terraform
-          terraform plan 
-                         
+          terraform plan \
+            -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
+            -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" 
+
       - name: Terraform Apply
         run: |
           cd terraform
-          terraform apply -auto-approve 
+          terraform apply -auto-approve \
+            -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
+            -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"

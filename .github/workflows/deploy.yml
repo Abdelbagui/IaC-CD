@@ -20,24 +20,27 @@ jobs:
         with:
           version: 'latest'
 
+
+      - name: Set environment variables from Azure credentials
+        run: |
+            echo "Setting environment variables from Azure credentials"
+            echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '[ 
+              "client_id=\(.clientId)", 
+              "client_secret=\(.clientSecret)", 
+              "tenant_id=\(.tenantId)", 
+              "subscription_id=\(.subscriptionId)" 
+            ] | .[]' >> $GITHUB_ENV
+  
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 'latest'  # or specify a version like '1.3.0'
+  
       - name: Authenticate to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      # - name: Set environment variables from Azure credentials
-      #   run: |
-      #     echo "Setting environment variables from Azure credentials"
-      #     echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '[
-      #       "client_id=\(.clientId)",
-      #       "client_secret=\(.clientSecret)",
-      #       "tenant_id=\(.tenantId)",
-      #       "subscription_id=\(.subscriptionId)"
-      #     ] | .[]' >> $GITHUB_ENV
-
+     
       - name: Initialize Terraform
         run: |
           cd terraform

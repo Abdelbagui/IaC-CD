@@ -20,10 +20,10 @@ terraform {
     container_name       = "abdelbagui"                     
     key                  = ".terraform.tfstate"    
 
-    client_id             = jsondecode(var.SECRET_CREDENTIALS)["client_id"]
-    client_secret         = jsondecode(var.SECRET_CREDENTIALS)["client_secret"]
-    tenant_id             = jsondecode(var.SECRET_CREDENTIALS)["tenant_id"]
-    subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscription_id"]
+    client_id             = jsondecode(var.SECRET_CREDENTIALS)["clientId"]
+    client_secret         = jsondecode(var.SECRET_CREDENTIALS)["clientSecret"]
+    tenant_id             = jsondecode(var.SECRET_CREDENTIALS)["tenantId"]
+    subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
     
   }
 

@@ -2,16 +2,20 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.67.0"
+      version = "=4.1.0"
     }
   }
-
-  required_version = ">= 0.14"
 }
+
 provider "azurerm" {
   features {}
-  skip_provider_registration = true
+
+  client_id       = jsondecode(var.SECRET_CREDENTIALS)["client_id"]
+  client_secret   = jsondecode(var.SECRET_CREDENTIALS)["client_secret"]
+  tenant_id       = jsondecode(var.SECRET_CREDENTIALS)["tenant_id"]
+  subscription_id = jsondecode(var.SECRET_CREDENTIALS)["subscription_id"]
 }
+
 
 terraform {
   backend "azurerm" {
@@ -21,3 +25,4 @@ terraform {
     key                  = ".terraform.tfstate"        
   }
 }
+

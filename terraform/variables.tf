@@ -6,3 +6,7 @@ variable "location" {
   default = "eastus"
 }
 
+variable "subscription_id" {
+  description = "The subscription ID for Azure"
+  type        = string
+}

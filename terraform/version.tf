@@ -7,18 +7,12 @@ terraform {
   }
 }
 
-# Définition de la variable SECRET_CREDENTIALS
-variable "SECRET_CREDENTIALS" {}
-
-# Décodez les informations d'authentification dans des variables locales
-locals {
-  credentials = jsondecode(var.SECRET_CREDENTIALS)
-}
 
 provider "azurerm" {
   features {}
 
-  subscription_id = local.credentials["subscriptionId"]
+  
+  subscription_id = var.subscription_id
 }
 
 terraform {
@@ -28,9 +22,9 @@ terraform {
     container_name        = "abdelbagui"
     key                   = ".terraform.tfstate"
     
-    client_id             = local.credentials["clientId"]
-    client_secret         = local.credentials["clientSecret"]
-    tenant_id             = local.credentials["tenantId"]
-    subscription_id       = local.credentials["subscriptionId"]
+    client_id             = var.client_id
+    client_secret         = var.client_secret
+    tenant_id             = var.tenant_id
+    subscription_id       = var.subscription_id
   }
 }

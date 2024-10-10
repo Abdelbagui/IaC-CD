@@ -5,4 +5,9 @@ variable "resource_group_name" {
 variable "location" {
   default = "eastus"
 }
-# variable "SECRET_CREDENTIALS" {}
+
+
+variable "client_id" {}
+variable "client_secret" {}
+variable "tenant_id" {}
+variable "subscription_id" {}

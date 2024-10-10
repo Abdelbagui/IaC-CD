@@ -14,7 +14,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name   = var.resource_group_name  # Utilisez la variable ici
+    resource_group_name   = "-Win1-Serv-2022" # Utilisez la variable ici
     storage_account_name  = "baguistorage"
     container_name        = "abdelbagui"
     key                   = ".terraform.tfstate"

@@ -10,6 +10,10 @@ terraform {
 provider "azurerm" {
   features {}  
   subscription_id = var.subscription_id
+  client_id       = var.appId
+  client_secret   = var.password
+  tenant_id       = var.tenant_id
+  
 }
 
 terraform {
@@ -18,8 +22,10 @@ terraform {
     storage_account_name  = "baguistorage"
     container_name        = "abdelbagui"
     key                   = ".terraform.tfstate"
+
+    client_id             = var.appId
+    client_secret         = var.password
+    tenant_id             = var.tenant_id
    
-    # Les paramètres client_id, client_secret et tenant_id doivent être fournis via des variables d'environnement
-    # qui ne devraient pas être dans le backend.
   } 
 }

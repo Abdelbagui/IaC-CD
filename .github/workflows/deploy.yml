@@ -25,10 +25,13 @@
          with:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-       - name: deploy AKS with terraform integration
-         run: |
+       - name: Install Terraform
+         uses: hashicorp/setup-terraform@v1
+
+       - name: init terraform 
+         run:  |
            cd terraform 
-           terraform init 
+           terraform init
 
        - name: plan 
          run : |
@@ -40,41 +43,3 @@
            cd terraform 
            terraform apply -auto-approve
 
-#  name: Deploy with Terraform
-
-#  on:
-#    push:
-#      branches:
-#        - main
-
-#  jobs:
-#    deploy:
-#      runs-on: ubuntu-latest
-
-#      steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-
-#      - name: Install Terraform
-#        uses: hashicorp/setup-terraform@v1
-
-#      - name: Initialize Terraform
-#        env:
-#          TF_VAR_SECRET_CREDENTIALS: ${{ secrets.SECRET_CREDENTIALS }}
-#        run:  | 
-#          cd terraform  
-#          terraform init
-
-#      - name: Plan  Terraform configuration
-#        env:
-#          TF_VAR_SECRET_CREDENTIALS: ${{ secrets.SECRET_CREDENTIALS }}
-#        run: | 
-#         cd terraform   
-#         terraform plan
-      
-#      - name: Apply Terraform configuration
-#        env:
-#          TF_VAR_SECRET_CREDENTIALS: ${{ secrets.SECRET_CREDENTIALS }}
-#        run: | 
-#           cd terraform   
-#           terraform apply -auto-approve     

@@ -32,7 +32,12 @@ jobs:
       - name: Set environment variables
         run: |
           echo "Setting environment variables from Azure credentials"
-          echo ${{ secrets.AZURE_CREDENTIALS }} | jq -r '"CLIENT_ID=\(.clientId)\nCLIENT_SECRET=\(.clientSecret)\nTENANT_ID=\(.tenantId)\nSUBSCRIPTION_ID=\(.subscriptionId)"' >> $GITHUB_ENV
+          echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '[
+            "CLIENT_ID=\(.clientId)",
+            "CLIENT_SECRET=\(.clientSecret)",
+            "TENANT_ID=\(.tenantId)",
+            "SUBSCRIPTION_ID=\(.subscriptionId)"
+          ] | .[]' >> $GITHUB_ENV
 
       - name: Initialize Terraform
         run: |

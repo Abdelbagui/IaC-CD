@@ -10,7 +10,7 @@ terraform {
 provider "azurerm" {
   features {}
 
-subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
+  subscription_id = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
 }
 
 terraform {
@@ -20,12 +20,11 @@ terraform {
     container_name       = "abdelbagui"                     
     key                  = ".terraform.tfstate"    
 
-    # client_id             = jsondecode(var.SECRET_CREDENTIALS)["clientId"]
-    # client_secret         = jsondecode(var.SECRET_CREDENTIALS)["clientSecret"]
-    # tenant_id             = jsondecode(var.SECRET_CREDENTIALS)["tenantId"]
-    # subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
-    
+    client_id             = jsondecode(var.SECRET_CREDENTIALS)["clientId"]
+    client_secret         = jsondecode(var.SECRET_CREDENTIALS)["clientSecret"]
+    tenant_id             = jsondecode(var.SECRET_CREDENTIALS)["tenantId"]
+    subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
   }
-
 }
 
+variable "SECRET_CREDENTIALS" {}

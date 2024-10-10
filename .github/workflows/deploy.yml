@@ -30,17 +30,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}  # Assurez-vous que les secrets sont au format JSON
 
-      - name: Set up Azure credentials
-        run: |
-          echo "Setting environment variables from Azure credentials"
-          echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '
-            [
-              "client_id=\(.clientId)",
-              "client_secret=\(.clientSecret)",
-              "tenant_id=\(.tenantId)",
-              "subscription_id=\(.subscriptionId)"
-            ] | .[]' >> $GITHUB_ENV 
-                  
       - name: Initialize Terraform
         run: |
           cd terraform

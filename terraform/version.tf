@@ -14,16 +14,17 @@ provider "azurerm" {
 
 }
 
-# terraform {
-#   backend "azurerm" {
-#     resource_group_name   = "HASMA_abdel_RG"
-#     storage_account_name  = "baguistorage"
-#     container_name        = "abdelbagui"
-#     key                   = ".terraform.tfstate"
+terraform {
+  backend "azurerm" {
+    resource_group_name   = "HASMA_abdel_RG"
+    storage_account_name  = "baguistorage"
+    container_name        = "abdelbagui"
+    key                   = ".terraform.tfstate"
    
-#   } 
-#     # client_id             = var.client_id
-#     # client_secret         = var.client_secret
-#     # tenant_id             = var.tenant_id
-#     # subscription_id       = var.subscription_id
-# }
+  
+    client_id             = var.appId
+    client_secret         = var.password
+    tenant_id             = var.tenant_id
+    subscription_id       = var.subscription_id
+    } 
+}

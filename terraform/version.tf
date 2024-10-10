@@ -15,7 +15,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = var.resource_group_name 
+    resource_group_name  = "HASMA_abdel_RG" 
     storage_account_name = "baguistorage"                     
     container_name       = "abdelbagui"                     
     key                  = ".terraform.tfstate"        

@@ -28,25 +28,21 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Set environment variables from Azure credentials
-        run: |
-          echo "Setting environment variables from Azure credentials"
-          echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '[
-            "client_id=\(.clientId)",
-            "client_secret=\(.clientSecret)",
-            "tenant_id=\(.tenantId)",
-            "subscription_id=\(.subscriptionId)"
-          ] | .[]' >> $GITHUB_ENV
+      # - name: Set environment variables from Azure credentials
+      #   run: |
+      #     echo "Setting environment variables from Azure credentials"
+      #     echo "${{ secrets.AZURE_CREDENTIALS }}" | jq -r '[
+      #       "client_id=\(.clientId)",
+      #       "client_secret=\(.clientSecret)",
+      #       "tenant_id=\(.tenantId)",
+      #       "subscription_id=\(.subscriptionId)"
+      #     ] | .[]' >> $GITHUB_ENV
 
       - name: Initialize Terraform
         run: |
           cd terraform
-          terraform init \
-            -backend-config="client_id=${{ env.client_id }}" \
-            -backend-config="client_secret=${{ env.client_secret }}" \
-            -backend-config="tenant_id=${{ env.tenant_id }}" \
-            -backend-config="subscription_id=${{ env.subscription_id }}"
-
+          terraform init 
+        
       - name: Terraform Plan
         run: |
           cd terraform

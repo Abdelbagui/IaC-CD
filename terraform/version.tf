@@ -10,7 +10,7 @@ terraform {
 provider "azurerm" {
   features {}
 
- 
+subscription_id       = jsondecode(var.SECRET_CREDENTIALS)["subscriptionId"]
 }
 
 terraform {

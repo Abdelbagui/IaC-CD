@@ -16,11 +16,6 @@ resource "azurerm_resource_group" "hasma_rg" {
   location = var.location
 }
 # Définir le groupe de ressources s'il n'existe pas
-resource "azurerm_resource_group" "hasma_rg" {
-  count    = length(data.azurerm_resource_group.existing_rg) == 0 ? 1 : 0
-  name     = var.resource_group_name
-  location = var.location
-}
 
 # Créer le cluster AKS
 resource "azurerm_kubernetes_cluster" "hasma_aks" {

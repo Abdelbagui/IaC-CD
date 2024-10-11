@@ -5,6 +5,12 @@ terraform {
       version = "=4.1.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name   = "-Win1-Serv-2022"  # Utilisez la variable ici
+    storage_account_name  = "baguistorage"
+    container_name        = "abdelbagui"
+    key                   = ".terraform.tfstate"
+  } 
 }
 
 provider "azurerm" {
@@ -13,13 +19,4 @@ provider "azurerm" {
   client_id       = var.appId
   client_secret   = var.password
   tenant_id       = var.tenant_id
-}
-
-terraform {
-  backend "azurerm" {
-    resource_group_name   = "-Win1-Serv-2022"  # Utilisez la variable ici
-    storage_account_name  = "baguistorage"
-    container_name        = "abdelbagui"
-    key                   = ".terraform.tfstate"
-  } 
 }

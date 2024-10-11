@@ -25,34 +25,33 @@ jobs:
         with:
           terraform_version: 'latest'  # ou spécifiez une version comme '1.3.0'
 
-      - name: Authenticate to Azure using Service Principal
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        run: |
-          echo "Logging into Azure..."
-          az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-          az account set --subscription $AZURE_SUBSCRIPTION_ID
-
       - name: Initialize Terraform
         run: |
           cd terraform
-          terraform init
+          echo "Initializing Terraform..."
+          terraform init \
+            -backend-config="storage_account_name=baguistorage" \
+            -backend-config="container_name=abdelbagui" \
+            -backend-config="key=.terraform.tfstate" \
+            -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+            -backend-config="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+            -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -backend-config="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
       - name: Terraform Plan
         run: |
           cd terraform
+          echo "Running Terraform Plan..."
           terraform plan \
             -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
             -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" 
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
 
       - name: Terraform Apply
         run: |
           cd terraform
+          echo "Applying Terraform Changes..."
           terraform apply -auto-approve \
             -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
             -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \

@@ -8,7 +8,6 @@ resource "azurerm_resource_group" "hasma_rg" {
 data "azurerm_kubernetes_cluster" "existing_aks" {
   name                = var.aks_cluster_name
   resource_group_name = var.resource_group_name
-  count               = 1  # Force Terraform à vérifier
   depends_on          = [azurerm_resource_group.hasma_rg]
 }
 
@@ -41,16 +40,15 @@ resource "azurerm_kubernetes_cluster" "hasma_aks" {
 resource "null_resource" "apply_k8s_manifests" {
   depends_on = [azurerm_kubernetes_cluster.hasma_aks]
 
-}
-provisioner "local-exec" {
-    command = join("\n", [
+  provisioner "local-exec" {
+    command = <<EOT
       az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks[0].name} --overwrite-existing
-      "kubectl apply -f ../Back",
-      "kubectl apply -f ../Front",
-      "kubectl apply -f ../Back/Phpmyadmin",
-      "kubectl apply -f ../Monitoring/Grafana",
-      "kubectl apply -f ../Monitoring/Prometheus",
-      "kubectl apply -f ../Monitoring/node-exporter --validate=false"
-    ])
+      kubectl apply -f ../Back
+      kubectl apply -f ../Front
+      kubectl apply -f ../Back/Phpmyadmin
+      kubectl apply -f ../Monitoring/Grafana
+      kubectl apply -f ../Monitoring/Prometheus
+      kubectl apply -f ../Monitoring/node-exporter --validate=false
+    EOT
   }
-
+}

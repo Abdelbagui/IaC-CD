@@ -64,16 +64,3 @@ resource "null_resource" "apply_k8s_manifests" {
     ])
   }
 }
-
-
-
-
-
-terraform {
-  backend "azurerm" {
-    resource_group_name   = "-Win1-Serv-2022"  # Utilisez la variable ici
-    storage_account_name  = "baguistorage"
-    container_name        = "abdelbagui"
-    key                   = ".terraform.tfstate"
-  } 
-}

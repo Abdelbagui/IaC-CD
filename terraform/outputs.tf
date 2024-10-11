@@ -4,7 +4,7 @@ output "aks_cluster_name" {
 
 output "aks_cluster_api_url" {
   value = azurerm_kubernetes_cluster.hasma_aks[0].fqdn
-  sentive = true 
+  sensitive= true 
 }
 
 output "resource_group_name" {

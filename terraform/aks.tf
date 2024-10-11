@@ -1,3 +1,4 @@
+
 # Récupération des informations du groupe de ressources existant
 data "azurerm_resource_group" "existing_rg" {
   name = var.resource_group_name
@@ -64,14 +65,12 @@ resource "null_resource" "apply_k8s_manifests" {
   provisioner "local-exec" {
     command = join("\n", [
       "az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg[0].name} --name ${azurerm_kubernetes_cluster.hasma_aks[0].name}",
-      for file in [
-        "../Back",
-        "../Front",
-        "../Back/Phpmyadmin",
-        "../Monitoring/Grafana",
-        "../Monitoring/Prometheus",
-        "../Monitoring/node-exporter"
-      ] : "kubectl apply -f ${file} ${file == "../Monitoring/node-exporter" ? '--validate=false' : ''}"
+      "kubectl apply -f ../Back",
+      "kubectl apply -f ../Front",
+      "kubectl apply -f ../Back/Phpmyadmin",
+      "kubectl apply -f ../Monitoring/Grafana",
+      "kubectl apply -f ../Monitoring/Prometheus",
+      "kubectl apply -f ../Monitoring/node-exporter --validate=false"
     ])
   }
 }

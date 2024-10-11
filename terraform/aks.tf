@@ -35,11 +35,11 @@ resource "null_resource" "apply_k8s_manifests" {
   provisioner "local-exec" {
     command = <<EOT
       az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name} --overwrite-existing
-      kubectl apply -f ../Back
-      kubectl apply -f ../Front
-      kubectl apply -f ../Back/Phpmyadmin
-      kubectl apply -f ../Monitoring/Grafana
-      kubectl apply -f ../Monitoring/Prometheus
+      kubectl apply -f ../Back --validate=false
+      kubectl apply -f ../Front --validate=false
+      kubectl apply -f ../Back/Phpmyadmin --validate=false
+      kubectl apply -f ../Monitoring/Grafana --validate=false
+      kubectl apply -f ../Monitoring/Prometheus --validate=false
       kubectl apply -f ../Monitoring/node-exporter --validate=false
     EOT
   }

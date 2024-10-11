@@ -1,23 +1,22 @@
-
-# Récupération des informations du groupe de ressources existant
+# Récupérer le groupe de ressources s'il existe
 data "azurerm_resource_group" "existing_rg" {
   name = var.resource_group_name
 }
 
-# Récupération des informations du cluster AKS existant
+# Récupérer le cluster AKS s'il existe
 data "azurerm_kubernetes_cluster" "existing_aks" {
-  name                = "abdel_HASMA_aks_cluster"  # Changez ceci si nécessaire
-  resource_group_name = data.azurerm_resource_group.existing_rg.name
+  name                = "abdel_HASMA_aks_cluster"
+  resource_group_name = var.resource_group_name
 }
 
-# Définition du groupe de ressources (ne sera pas créé si existant)
+# Créer un groupe de ressources seulement s'il n'existe pas
 resource "azurerm_resource_group" "hasma_rg" {
   count    = length(data.azurerm_resource_group.existing_rg) == 0 ? 1 : 0
   name     = var.resource_group_name
   location = var.location
 }
 
-# Définition du cluster Kubernetes (ne sera pas créé si existant)
+# Créer le cluster AKS seulement s'il n'existe pas
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
   count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0
   name                 = "abdel_HASMA_aks_cluster"

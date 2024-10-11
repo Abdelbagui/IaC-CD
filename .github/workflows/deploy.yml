@@ -30,9 +30,6 @@ jobs:
           cd terraform
           echo "Initializing Terraform..."
           terraform init \
-            -backend-config="storage_account_name=baguistorage" \
-            -backend-config="container_name=abdelbagui" \
-            -backend-config="key=.terraform.tfstate" \
             -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
             -backend-config="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
             -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \

@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "hasma_rg" {
 
 # 2. Vérifier si le cluster AKS existe
 data "azurerm_kubernetes_cluster" "existing_aks" {
-  name                = var.aks_cluster_name
+  name                = var.kubernetes_cluster_name
   resource_group_name = var.resource_group_name
   depends_on          = [azurerm_resource_group.hasma_rg]
 }
@@ -14,7 +14,7 @@ data "azurerm_kubernetes_cluster" "existing_aks" {
 # 3. Créer le cluster AKS si nécessaire
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
   count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0
-  name                 = var.aks_cluster_name
+  name                 = var.kubernetes_cluster_name
   location             = azurerm_resource_group.hasma_rg.location
   resource_group_name  = azurerm_resource_group.hasma_rg.name
   dns_prefix           = "hasmak8s"

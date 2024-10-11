@@ -35,7 +35,7 @@ resource "null_resource" "wait_for_aks" {
   provisioner "local-exec" {
     command = <<EOT
       echo "Attente que le cluster AKS soit prêt..."
-      while ! az aks show --resource-group ${azurerm_resource_group.hasma_rg[0].name} --name ${azurerm_kubernetes_cluster.hasma_aks[0].name} --query "powerState" -o tsv | grep -q "Running"; do
+      while ! az aks show --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name} --query "powerState" -o tsv | grep -q "Running"; do
         echo "Le cluster AKS n'est pas encore prêt. Attente de 10 secondes..."
         sleep 10
       done
@@ -50,7 +50,7 @@ resource "null_resource" "apply_k8s_manifests" {
 
   provisioner "local-exec" {
     command = join("\n", [
-      "az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg[0].name} --name ${azurerm_kubernetes_cluster.hasma_aks[0].name}",
+      "az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name}",
       "kubectl apply -f ../Back",
       "kubectl apply -f ../Front",
       "kubectl apply -f ../Back/Phpmyadmin",

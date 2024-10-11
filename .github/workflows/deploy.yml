@@ -23,7 +23,7 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 'latest'  # ou spécifiez une version comme '1.3.0'
+          terraform_version: 'latest'
 
       - name: Authenticate to Azure
         uses: azure/login@v1
@@ -33,8 +33,8 @@ jobs:
       - name: Initialize Terraform
         run: |
           cd terraform
-          terraform init 
-        
+          terraform init
+
       - name: Terraform Plan
         run: |
           cd terraform
@@ -42,7 +42,9 @@ jobs:
             -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
             -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" 
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=HASMA_abdel_RG" \
+            -var="location=eastus"
 
       - name: Terraform Apply
         run: |
@@ -51,4 +53,6 @@ jobs:
             -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
             -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=HASMA_abdel_RG" \
+            -var="location=eastus"

@@ -8,12 +8,12 @@ resource "azurerm_resource_group" "hasma_rg" {
 data "azurerm_kubernetes_cluster" "existing_aks" {
   name                = var.kubernetes_cluster_name
   resource_group_name = var.resource_group_name
-  depends_on          = [azurerm_resource_group.hasma_rg]
+  # Pas de dépendance sur le groupe de ressources, car il est créé par Terraform.
 }
 
 # 3. Créer le cluster AKS si nécessaire
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  count                = length(data.azurerm_kubernetes_cluster.existing_aks.name) == 0 ? 1 : 0 # Vérification correcte de l'existence
+  count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0  # Si aucun cluster existant, en créer un
   name                 = var.kubernetes_cluster_name
   location             = azurerm_resource_group.hasma_rg.location
   resource_group_name  = azurerm_resource_group.hasma_rg.name

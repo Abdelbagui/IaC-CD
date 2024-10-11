@@ -25,3 +25,9 @@ variable "subscription_id" {
   type        = string
   description = "The Azure Subscription ID"
 }
+
+variable "kubernetes_cluster_name" {
+  description = "Nom du cluster Kubernetes AKS à créer ou à récupérer."
+  type        = string
+  default     = "abdel_HASMA_aks_cluster"  # Vous pouvez mettre un nom par défaut ou supprimer la ligne 'default'
+}

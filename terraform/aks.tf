@@ -15,15 +15,21 @@ resource "azurerm_resource_group" "hasma_rg" {
   name     = var.resource_group_name
   location = var.location
 }
+# Définir le groupe de ressources s'il n'existe pas
+resource "azurerm_resource_group" "hasma_rg" {
+  count    = length(data.azurerm_resource_group.existing_rg) == 0 ? 1 : 0
+  name     = var.resource_group_name
+  location = var.location
+}
 
-# Créer le cluster AKS seulement s'il n'existe pas
+# Créer le cluster AKS
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
   count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0
   name                 = "abdel_HASMA_aks_cluster" # Remplacer par votre nom de cluster
   location             = azurerm_resource_group.hasma_rg[0].location
-  resource_group_name  = azurerm_resource_group.hasma_rg[0].name # Correction ici
+  resource_group_name  = azurerm_resource_group.hasma_rg[0].name
   dns_prefix           = "hasmak8s"
-
+  
   default_node_pool {
     name       = "default"
     node_count = 3
@@ -40,7 +46,6 @@ resource "azurerm_kubernetes_cluster" "hasma_aks" {
     outbound_type     = "loadBalancer"
   }
 }
-
 # Obtenir les informations d'identification AKS pour utiliser kubectl
 resource "null_resource" "apply_k8s_manifests" {
   depends_on = [azurerm_kubernetes_cluster.hasma_aks]

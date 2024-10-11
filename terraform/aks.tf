@@ -13,7 +13,7 @@ data "azurerm_kubernetes_cluster" "existing_aks" {
 
 # 3. Créer le cluster AKS si nécessaire
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  count                = data.azurerm_kubernetes_cluster.existing_aks ? 0 : 1 # Modifié pour utiliser une évaluation correcte
+  count                = length(data.azurerm_kubernetes_cluster.existing_aks.name) == 0 ? 1 : 0 # Vérification correcte de l'existence
   name                 = var.kubernetes_cluster_name
   location             = azurerm_resource_group.hasma_rg.location
   resource_group_name  = azurerm_resource_group.hasma_rg.name

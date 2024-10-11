@@ -19,11 +19,7 @@ resource "azurerm_kubernetes_cluster" "hasma_aks" {
   identity {
     type = "SystemAssigned"
   }
-  service_principal {
-    client_id = var.appId
-    client_secret = var.password
-  }
-
+  
   network_profile {
     network_plugin    = "azure"
     load_balancer_sku = "standard"

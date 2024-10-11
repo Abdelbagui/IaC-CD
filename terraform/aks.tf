@@ -4,16 +4,8 @@ resource "azurerm_resource_group" "hasma_rg" {
   location = var.location
 }
 
-# 2. Vérifier si le cluster AKS existe
-data "azurerm_kubernetes_cluster" "existing_aks" {
-  name                = var.kubernetes_cluster_name
-  resource_group_name = var.resource_group_name
-  # Pas de dépendance sur le groupe de ressources, car il est créé par Terraform.
-}
-
-# 3. Créer le cluster AKS si nécessaire
+# 2. Créer le cluster AKS
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0  # Si aucun cluster existant, en créer un
   name                 = var.kubernetes_cluster_name
   location             = azurerm_resource_group.hasma_rg.location
   resource_group_name  = azurerm_resource_group.hasma_rg.name
@@ -36,13 +28,13 @@ resource "azurerm_kubernetes_cluster" "hasma_aks" {
   }
 }
 
-# 4. Appliquer les manifestes Kubernetes après création du cluster
+# 3. Appliquer les manifestes Kubernetes après création du cluster
 resource "null_resource" "apply_k8s_manifests" {
   depends_on = [azurerm_kubernetes_cluster.hasma_aks]
 
   provisioner "local-exec" {
     command = <<EOT
-      az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks[0].name} --overwrite-existing
+      az aks get-credentials --resource-group ${azurerm_resource_group.hasma_rg.name} --name ${azurerm_kubernetes_cluster.hasma_aks.name} --overwrite-existing
       kubectl apply -f ../Back
       kubectl apply -f ../Front
       kubectl apply -f ../Back/Phpmyadmin

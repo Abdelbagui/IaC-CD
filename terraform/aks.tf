@@ -3,6 +3,12 @@ data "azurerm_resource_group" "existing_rg" {
   name = var.resource_group_name
 }
 
+ 
+data "azurerm_kubernetes_cluster" "existing_aks" {
+  name                = "abdel_HASMA_aks_cluster" # Nom du cluster AKS
+  resource_group_name = var.resource_group_name
+}
+
 # Créer le groupe de ressources seulement s'il n'existe pas
 resource "azurerm_resource_group" "hasma_rg" {
   count    = length(data.azurerm_resource_group.existing_rg) == 0 ? 1 : 0

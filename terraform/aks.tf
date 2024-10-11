@@ -5,16 +5,12 @@ resource "azurerm_resource_group" "hasma_rg" {
 }
 
 # Vérifier si le groupe de ressources existe avant de continuer
-data "azurerm_resource_group" "existing_rg" {
-  name = var.resource_group_name
-}
 
 # Créer le cluster AKS seulement s'il n'existe pas
 resource "azurerm_kubernetes_cluster" "hasma_aks" {
-  count                = length(data.azurerm_kubernetes_cluster.existing_aks) == 0 ? 1 : 0
   name                 = var.kubernetes_cluster_name
-  location             = azurerm_resource_group.hasma_rg[0].location
-  resource_group_name  = azurerm_resource_group.hasma_rg[0].name
+  location             = var.location
+  resource_group_name  = var.resource_group_name.name
   dns_prefix           = "hasmak8s"
 
   default_node_pool {

@@ -1,0 +1,10 @@
+---
+- name: Créer un namespace Kubernetes
+  hosts: localhost
+  tasks:
+    - name: Créer le namespace
+      k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ namespace_name }}"
+        kubeconfig: "{{ kubeconfig_path }}"

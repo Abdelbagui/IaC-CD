@@ -31,3 +31,11 @@ variable "kubernetes_cluster_name" {
   type        = string
   default     = "abdel_HASMA_aks_cluster"  # Vous pouvez mettre un nom par défaut ou supprimer la ligne 'default'
 }
+
+variable "namespace_name" {
+  default = "hasma-namespace"
+}
+
+variable "kubeconfig_path" {
+  default = "/.kube/kubeconfig"
+}

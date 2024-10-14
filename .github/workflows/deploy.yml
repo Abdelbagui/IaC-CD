@@ -60,3 +60,4 @@ jobs:
         run: |
           echo "Nettoyage des fichiers temporaires et des secrets..."
           rm -rf .terraform/terraform.tfstate
+          rm -rf .kube/kubeconfig

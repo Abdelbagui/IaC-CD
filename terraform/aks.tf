@@ -55,14 +55,16 @@ resource "null_resource" "apply_k8s_manifests" {
         echo "L'API Kubernetes n'est pas encore prête, réessai dans 10 secondes..."
         sleep 10
       done
-
+     
+      echo "Exécution du playbook Ansible pour créer le namespace..."
+      ansible-playbook create_namespace.yml -e "namespace_name=hasma-namespace kubeconfig_path="../.kube/kubeconfig"
       echo "Application des manifestes Kubernetes..."
-      kubectl apply -f ../Back --validate=false
-      kubectl apply -f ../Front --validate=false
-      kubectl apply -f ../Back/Phpmyadmin --validate=false
-      kubectl apply -f ../Monitoring/Grafana --validate=false
-      kubectl apply -f ../Monitoring/Prometheus --validate=false
-      kubectl apply -f ../Monitoring/node-exporter --validate=false
+      # kubectl apply -f ../Back --validate=false
+      # kubectl apply -f ../Front --validate=false
+      # kubectl apply -f ../Back/Phpmyadmin --validate=false
+      # kubectl apply -f ../Monitoring/Grafana --validate=false
+      # kubectl apply -f ../Monitoring/Prometheus --validate=false
+      # kubectl apply -f ../Monitoring/node-exporter --validate=false
     EOT
   }
 }

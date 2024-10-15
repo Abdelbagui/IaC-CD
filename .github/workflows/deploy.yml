@@ -55,9 +55,4 @@ jobs:
             -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
             -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
           
-      # # Optionnel : Nettoyage après déploiement
-      # - name: Clean up
-      #   run: |
-      #     echo "Nettoyage des fichiers temporaires et des secrets..."
-      #     rm -rf .terraform/terraform.tfstate
-      #     rm -rf .kube/kubeconfig
+      

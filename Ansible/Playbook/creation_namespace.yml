@@ -1,6 +1,6 @@
 ---
 - name: Créer un namespace Kubernetes
-  hosts: localhost
+  hosts: all
   tasks:
     - name: Créer le namespace
       k8s:

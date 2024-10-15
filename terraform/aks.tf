@@ -57,7 +57,7 @@ resource "null_resource" "apply_k8s_manifests" {
       done
      
       echo "Exécution du playbook Ansible pour créer le namespace..."
-      ansible-playbook ../ansible/playbooks/create_namespace.yml -e "namespace_name=hasma-namespace kubeconfig_path=../.kube/config"
+      ansible-playbook ../Ansible/Playbook/create_namespace.yml -e "namespace_name=hasma-namespace kubeconfig_path=../.kube/config"
 
       # echo "Application des manifestes Kubernetes..."
       # # kubectl apply -f ../Back --validate=false

@@ -49,7 +49,7 @@ jobs:
         run: |
           cd terraform
           echo "Applying Terraform Changes..."
-          terraform Apply -auto-approve \
+          terraform apply -auto-approve \
             -var="appId=${{ secrets.AZURE_CLIENT_ID }}" \
             -var="password=${{ secrets.AZURE_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \

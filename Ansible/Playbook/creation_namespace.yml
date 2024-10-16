@@ -1,0 +1,16 @@
+---
+name: Create Kubernetes Namespace
+hosts: localhost  # Exécution sur la machine locale
+vars:
+  ansible_python_interpreter: /opt/myenvazure/bin/python  # Utilisation de l'interpréteur Python de l'environnement virtuel
+  gather_facts: false  # Pas besoin de collecter les 'variables' pour ce playbook
+tasks:
+- name: Créer un namespace Kubernetes
+  hosts: all
+  tasks:
+    - name: Créer le namespace
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ namespace_name }}"
+        kubeconfig: "{{ kubeconfig_path }}"
